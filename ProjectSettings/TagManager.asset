@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Note
   - Stick
+  - non_stick
   layers:
   - Default
   - TransparentFX

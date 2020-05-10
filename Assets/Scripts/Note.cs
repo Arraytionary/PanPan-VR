@@ -11,6 +11,7 @@ public class Note : MonoBehaviour
     public float dec;
     public Sprite image;
     public float velocity;
+    public string text;
 
     ////class constructure
     //public  Note(string _type)

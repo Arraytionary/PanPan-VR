@@ -97,7 +97,7 @@ public class ActionProcesser : MonoBehaviour
         {
             projectile.Throw(note.transform, note);
         }
-        Debug.Log("right inner");
+        //Debug.Log("right inner");
         //if (!ctx.performed)
         //    return;
         //animator.SetBool("Pressed", false);
@@ -116,7 +116,7 @@ public class ActionProcesser : MonoBehaviour
         {
             projectile.Throw(note.transform, note);
         }
-        Debug.Log("right outer");
+        //Debug.Log("right outer");
     }
 
     public void HitLI()
@@ -132,7 +132,7 @@ public class ActionProcesser : MonoBehaviour
         {
             projectile.Throw(note.transform, note);
         }
-        Debug.Log("left inner");
+        //Debug.Log("left inner");
     }
 
     public void HitLO()
@@ -148,7 +148,7 @@ public class ActionProcesser : MonoBehaviour
         {
             projectile.Throw(note.transform, note);
         }
-        Debug.Log("left outer");
+        //Debug.Log("left outer");
     }
 
     private void PlayAnim(Animator anim)

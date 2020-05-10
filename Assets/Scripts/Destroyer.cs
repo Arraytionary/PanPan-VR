@@ -5,6 +5,7 @@ using UnityEngine;
 public class Destroyer : MonoBehaviour
 {   
     public ActionProcesser aP;
+    public string text;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +20,9 @@ public class Destroyer : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        collision.GetComponent<Note>().text = text;
         aP.OnTriggerEnter2D(collision);
+        //Debug.Log(text);
         //Destroy(collision.gameObject);
     }
 

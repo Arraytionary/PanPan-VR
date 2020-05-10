@@ -39,7 +39,7 @@ public class Conductor : MonoBehaviour
     int idx;
 
     //distance btween spawner and register 
-    float distance;
+    public float distance;
 
     //an AudioSource attached to this GameObject that will play the music.
     public AudioSource musicSource;
@@ -106,6 +106,6 @@ public class Conductor : MonoBehaviour
     }
     public float GetVelocity()
     {
-        return distance*secPerBeat;
+        return distance/(offset*secPerBeat);
     }
 }

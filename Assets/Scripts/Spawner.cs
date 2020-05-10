@@ -34,7 +34,7 @@ public class Spawner : MonoBehaviour
         GameObject n = notes[idx];
         //may have to change this to singleton
         n.GetComponent<Note>().velocity = cd.GetVelocity();
-        Debug.Log(cd.GetVelocity());
+        //n.GetComponent<Note>().velocity = 2f;
         Instantiate(n, transform.position, Quaternion.identity);
         //yield return new WaitForSeconds(0.5f);
         //StartCoroutine(SpawnNote());
