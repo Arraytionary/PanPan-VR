@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using EzySlice;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class moving : MonoBehaviour
 {
@@ -24,18 +25,20 @@ public class moving : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (limit < 3 && collision.gameObject.layer == 2)
+        GameObject go = collision.GetContact(0).otherCollider.gameObject;
+        Debug.Log(go);
+        if (limit < 2 && go.layer == 2)
         {
-            Debug.Log(collision.gameObject);
-
-            move = !move;
-            SlicedHull hull = SliceObject(collision.gameObject, null);
+            //Debug.Log(collision.gameObject);
+            //go.GetComponentInParent<HandPresence>().RequestHaptic(0, 1, 0.2f);
+            //move = !move;
+            SlicedHull hull = SliceObject(go, null);
             gameObject.GetComponent<MeshRenderer>().enabled = false;
             if (hull != null)
             {
-                //GameObject bottom = hull.CreateLowerHull(gameObject, null);
+                GameObject bottom = hull.CreateLowerHull(gameObject, null);
                 GameObject top = hull.CreateUpperHull(gameObject, null);
-                //AddHullComponents(bottom);
+                AddHullComponents(bottom);
                 AddHullComponents(top);
             }
             //gameObject.transform.parent = collision.gameObject.transform;
@@ -55,9 +58,8 @@ public class moving : MonoBehaviour
 
         collider.convex = true;
 
-
-
-        rb.AddExplosionForce(100, go.transform.position, 20);
+        rb.AddRelativeForce(new Vector3(0, 0, -10f));
+        //rb.AddExplosionForce(100, go.transform.position, 2);
 
     }
 

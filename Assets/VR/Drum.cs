@@ -9,6 +9,7 @@ namespace UnityEngine.XR.Interaction.Toolkit
     {
         public ActionProcesser ap;
         public string side;
+        public SoundFeedback sound;
         // Start is called before the first frame update
         void Start()
         {
@@ -22,7 +23,7 @@ namespace UnityEngine.XR.Interaction.Toolkit
         }
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.tag == "Stick" && Mathf.Abs(collision.relativeVelocity.y) >= 2f)
+            if (collision.gameObject.tag == "Stick" && Mathf.Abs(collision.relativeVelocity.y) >= 0.5f)
                 
                 //collision.gameObject.GetComponent<XRGrabInteractable>().movementType = XRBaseInteractable.MovementType.VelocityTracking;
             {
@@ -42,45 +43,66 @@ namespace UnityEngine.XR.Interaction.Toolkit
                 switch (side)
                 {
                     case "right":
-                        ap.HitRI();
+                        if(Time.time - MainValue.Instance.FloatValue["right"] > 0.15f)
+                        {
+                            sound.playSound(0);
+                            ap.HitRI();
+                            MainValue.Instance.FloatValue["right"] = Time.time;
+                        }
+
                         break;
                     case "left":
-                        ap.HitLI();
+                        if (Time.time - MainValue.Instance.FloatValue["left"] > 0.15f)
+                        {
+                            sound.playSound(0);
+                            ap.HitLI();
+                            MainValue.Instance.FloatValue["left"] = Time.time;
+                        }
                         break;
                     case "oleft":
-                        ap.HitLO();
+                        if (Time.time - MainValue.Instance.FloatValue["left"] > 0.15f)
+                        {
+                            sound.playSound(1);
+                            ap.HitLO();
+                            MainValue.Instance.FloatValue["left"] = Time.time;
+                        }
                         break;
                     case "oright":
-                        ap.HitRO();
+                        if (Time.time - MainValue.Instance.FloatValue["right"] > 0.15f)
+                        {
+                            sound.playSound(1);
+                            ap.HitRO();
+                            MainValue.Instance.FloatValue["right"] = Time.time;
+                        }
                         break;
                     default:
                         break;
                 }
             }
         }
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.tag == "Stick")
-                other.GetComponent<XRGrabInteractable>().movementType = XRBaseInteractable.MovementType.VelocityTracking;
-            {
-                switch (side)
-                {
-                    case "right":
-                        ap.HitRI();
-                        break;
-                    case "left":
-                        ap.HitLI();
-                        break;
-                    case "oleft":
-                        ap.HitLO();
-                        break;
-                    case "oright":
-                        ap.HitRO();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
+        //private void OnTriggerEnter(Collider other)
+        //{
+        //    if (other.gameObject.tag == "Stick")
+        //        other.GetComponent<XRGrabInteractable>().movementType = XRBaseInteractable.MovementType.VelocityTracking;
+        //    {
+        //        switch (side)
+        //        {
+        //            case "right":
+        //                ap.HitRI();
+        //                break;
+        //            case "left":
+        //                ap.HitLI();
+        //                break;
+        //            case "oleft":
+        //                ap.HitLO();
+        //                break;
+        //            case "oright":
+        //                ap.HitRO();
+        //                break;
+        //            default:
+        //                break;
+        //        }
+        //    }
+        //}
     }
 }

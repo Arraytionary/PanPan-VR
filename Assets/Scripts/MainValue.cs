@@ -8,6 +8,10 @@ public class MainValue : Singleton<MainValue>
     {
         { "mainGame", new Vector3(0,0,-10)}
     };
-
+    public IDictionary<string, float> FloatValue = new Dictionary<string, float>()
+    {
+        { "left", 0f},
+        {"right", 0f }
+    };
     public string selectedMenu = "all song";
 }

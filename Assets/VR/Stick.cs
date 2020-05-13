@@ -6,6 +6,7 @@ public class Stick : MonoBehaviour
 {
     public float cdTime;
     public float time;
+    public HandPresence hP;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +28,10 @@ public class Stick : MonoBehaviour
 
     public void CoolDown(float _time)
     {
+        if (hP)
+        {
+            hP.RequestHaptic(0, 0.7f, 0.005f);
+        }
         time = _time;
     }
 }

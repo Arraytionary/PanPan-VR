@@ -9,6 +9,7 @@ public class HandPresence : MonoBehaviour
     public Animator[] claws;
     private InputDevice targetDevice;
     private Animator handAnimator;
+
     void Start()
     {
         List<InputDevice> devices = new List<InputDevice>();
@@ -31,6 +32,10 @@ public class HandPresence : MonoBehaviour
     {
         if(targetDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue))
         {
+            if (triggerValue < 0.8f && triggerValue > 0f)
+            {
+                //RequestHaptic(0, triggerValue, 0.05f);
+            }
             handAnimator.SetFloat("Trigger", triggerValue);
             foreach (Animator claw in claws)
             {
@@ -56,5 +61,25 @@ public class HandPresence : MonoBehaviour
         {
             handAnimator.SetFloat("Grip", 0);
         }
+    }
+
+    public void RequestHaptic(uint channel, float amplitude, float duration)
+    {
+        //Debug.Log("recieve");
+        HapticCapabilities capabilities;
+        if (targetDevice.TryGetHapticCapabilities(out capabilities))
+        {
+            if (capabilities.supportsImpulse)
+            {
+                targetDevice.SendHapticImpulse(channel, amplitude, duration);
+            }
+        }
+        else Debug.Log("Haptic failed");
+    }
+
+    public void jx(string from)
+    {
+        //Debug.Log(from);
+        RequestHaptic(0, 0.9f, 0.3f);
     }
 }
