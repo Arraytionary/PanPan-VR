@@ -1,19 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-namespace UnityEngine.XR.Interaction.Toolkit
-{
+
 
     public class Drum : MonoBehaviour
     {
+        public delegate void PublishEvent();
+    public static event PublishEvent rightInner;
+    public static event PublishEvent rightOuter;
+    public static event PublishEvent leftInner;
+    public static event PublishEvent leftOuter;
+                                         
         public ActionProcesser ap;
+        public DefaultControl inputAction;
         public string side;
         public SoundFeedback sound;
         // Start is called before the first frame update
         void Start()
         {
-
+            inputAction = new DefaultControl();
         }
 
         // Update is called once per frame
@@ -46,7 +53,12 @@ namespace UnityEngine.XR.Interaction.Toolkit
                         if(Time.time - MainValue.Instance.FloatValue["right"] > 0.15f)
                         {
                             sound.playSound(0);
-                            ap.HitRI();
+                            if (rightInner != null)
+                            {
+                                rightInner();
+                            }
+                            //BroadcastMessage("HitRI");
+                            //ap.HitRI();
                             MainValue.Instance.FloatValue["right"] = Time.time;
                         }
 
@@ -55,7 +67,10 @@ namespace UnityEngine.XR.Interaction.Toolkit
                         if (Time.time - MainValue.Instance.FloatValue["left"] > 0.15f)
                         {
                             sound.playSound(0);
-                            ap.HitLI();
+                            if (leftInner != null)
+                            {
+                                leftInner();
+                            }
                             MainValue.Instance.FloatValue["left"] = Time.time;
                         }
                         break;
@@ -63,7 +78,10 @@ namespace UnityEngine.XR.Interaction.Toolkit
                         if (Time.time - MainValue.Instance.FloatValue["left"] > 0.15f)
                         {
                             sound.playSound(1);
-                            ap.HitLO();
+                            if(leftOuter != null)
+                            {
+                                leftOuter();
+                            }
                             MainValue.Instance.FloatValue["left"] = Time.time;
                         }
                         break;
@@ -71,8 +89,11 @@ namespace UnityEngine.XR.Interaction.Toolkit
                         if (Time.time - MainValue.Instance.FloatValue["right"] > 0.15f)
                         {
                             sound.playSound(1);
-                            ap.HitRO();
-                            MainValue.Instance.FloatValue["right"] = Time.time;
+                            if (rightOuter != null)
+                            {
+                                rightOuter();
+                            }
+                        MainValue.Instance.FloatValue["right"] = Time.time;
                         }
                         break;
                     default:
@@ -105,4 +126,4 @@ namespace UnityEngine.XR.Interaction.Toolkit
         //    }
         //}
     }
-}
+    

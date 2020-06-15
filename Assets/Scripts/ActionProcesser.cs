@@ -36,6 +36,13 @@ public class ActionProcesser : MonoBehaviour
     void Awake()
     {
         inputAction = new DefaultControl();
+
+        Drum.rightInner += HitRI;
+        Drum.rightOuter += HitRO;
+        Drum.leftInner += HitLI;
+        Drum.leftOuter += HitLO;
+
+
         inputAction.Gameplay.rightInner.performed += ctx => HitRI();
         inputAction.Gameplay.rightOuter.performed += ctx => HitRO();
         inputAction.Gameplay.leftInner.performed += ctx => HitLI();

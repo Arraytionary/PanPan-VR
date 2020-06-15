@@ -6,7 +6,6 @@ using UnityEngine.XR;
 public class HandPresence : MonoBehaviour
 {
     public InputDeviceCharacteristics controllerCharacteristics;
-    public Animator[] claws;
     private InputDevice targetDevice;
     private Animator handAnimator;
 
@@ -37,17 +36,9 @@ public class HandPresence : MonoBehaviour
                 //RequestHaptic(0, triggerValue, 0.05f);
             }
             handAnimator.SetFloat("Trigger", triggerValue);
-            foreach (Animator claw in claws)
-            {
-                claw.SetFloat("Trigger", triggerValue);
-            }
         }
         else
         {
-            foreach (Animator claw in claws)
-            {
-                claw.SetFloat("Trigger", 0);
-            }
             handAnimator.SetFloat("Trigger", 0);
         }
 
