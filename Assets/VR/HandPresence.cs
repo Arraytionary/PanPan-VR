@@ -8,6 +8,9 @@ public class HandPresence : MonoBehaviour
     public InputDeviceCharacteristics controllerCharacteristics;
     private InputDevice targetDevice;
     private Animator handAnimator;
+    public GameObject toPinchObject;
+    public GameObject pinchPos;
+    private GameObject pinchObject;
 
     void Start()
     {
@@ -31,9 +34,25 @@ public class HandPresence : MonoBehaviour
     {
         if(targetDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue))
         {
-            if (triggerValue < 0.8f && triggerValue > 0f)
+            if (triggerValue > 0.8f && pinchObject == null)
             {
+                pinchObject = Instantiate(toPinchObject, pinchPos.transform.position, pinchPos.transform.rotation);
+                pinchObject.tag = "Untagged";
+                pinchObject.transform.parent = gameObject.transform;
+                pinchObject.GetComponent<Rigidbody>().isKinematic = true;
                 //RequestHaptic(0, triggerValue, 0.05f);
+            }
+
+            else if (triggerValue < 0.4 && pinchObject != null)
+            {
+                pinchObject.transform.parent = null;
+                pinchObject.tag = "coin";
+                pinchObject.GetComponent<Rigidbody>().isKinematic = false;
+                if (targetDevice.TryGetFeatureValue(CommonUsages.deviceVelocity, out Vector3 vel)){
+                    pinchObject.GetComponent<Rigidbody>().velocity = vel;
+                }
+                
+                pinchObject = null;
             }
             handAnimator.SetFloat("Trigger", triggerValue);
         }

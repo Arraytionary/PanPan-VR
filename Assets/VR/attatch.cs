@@ -20,6 +20,9 @@ public class attatch : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        stick.hP = other.gameObject.GetComponentInChildren<HandPresence>();
+        if (other.tag == "Hand")
+        {
+            stick.hP = other.gameObject.GetComponentInChildren<HandPresence>();
+        }
     }
 }

@@ -22,7 +22,10 @@ public class buster : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //Debug.Log(other);
-        other.gameObject.GetComponentInChildren<HandPresence>().jx("buster");
+        if(other.gameObject.tag == "Hand")
+        {
+            other.gameObject.GetComponentInChildren<HandPresence>().jx("buster");
+        }
     }
     private void OnCollisionEnter(Collision collision)
     {

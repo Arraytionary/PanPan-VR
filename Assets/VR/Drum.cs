@@ -8,15 +8,17 @@ using UnityEngine.InputSystem;
     public class Drum : MonoBehaviour
     {
         public delegate void PublishEvent();
-    public static event PublishEvent rightInner;
-    public static event PublishEvent rightOuter;
-    public static event PublishEvent leftInner;
-    public static event PublishEvent leftOuter;
+        public static event PublishEvent rightInner;
+        public static event PublishEvent rightOuter;
+        public static event PublishEvent leftInner;
+        public static event PublishEvent leftOuter;
                                          
         public ActionProcesser ap;
         public DefaultControl inputAction;
         public string side;
         public SoundFeedback sound;
+
+        public Light spotlight;
         // Start is called before the first frame update
         void Start()
         {
@@ -53,6 +55,7 @@ using UnityEngine.InputSystem;
                         if(Time.time - MainValue.Instance.FloatValue["right"] > 0.15f)
                         {
                             sound.playSound(0);
+                            Emit("red");
                             if (rightInner != null)
                             {
                                 rightInner();
@@ -67,6 +70,7 @@ using UnityEngine.InputSystem;
                         if (Time.time - MainValue.Instance.FloatValue["left"] > 0.15f)
                         {
                             sound.playSound(0);
+                            Emit("red");
                             if (leftInner != null)
                             {
                                 leftInner();
@@ -78,6 +82,7 @@ using UnityEngine.InputSystem;
                         if (Time.time - MainValue.Instance.FloatValue["left"] > 0.15f)
                         {
                             sound.playSound(1);
+                            Emit("blue");
                             if(leftOuter != null)
                             {
                                 leftOuter();
@@ -89,6 +94,7 @@ using UnityEngine.InputSystem;
                         if (Time.time - MainValue.Instance.FloatValue["right"] > 0.15f)
                         {
                             sound.playSound(1);
+                            Emit("blue");
                             if (rightOuter != null)
                             {
                                 rightOuter();
@@ -101,6 +107,26 @@ using UnityEngine.InputSystem;
                 }
             }
         }
+
+        void Emit(string color)
+    {
+        if(MainValue.Instance.crrScene == "MainGame")
+        {
+            switch (color)
+            {
+                case "red":
+                    spotlight.color = new Color(1f, 0f, 0.05529642f);
+                    spotlight.intensity = 2.51f;
+                    break;
+                case "blue":
+                    spotlight.color = new Color(0.1933962f, 0.5657321f, 1f);
+                    spotlight.intensity = 2.51f;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
         //private void OnTriggerEnter(Collider other)
         //{
         //    if (other.gameObject.tag == "Stick")
