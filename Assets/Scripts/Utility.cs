@@ -35,4 +35,15 @@ public class Utility : MonoBehaviour
             rb.velocity = new Vector2(xV, yV);
         }
     }
+
+    public static void RequestBadge(string label)
+    {
+        MainValue.Instance.requestedBadge = true;
+        MainValue.Instance.toDisplayOnBadge = label;
+    }
+
+    public static void HideBadge()
+    {
+        MainValue.Instance.requestedBadge = false;
+    }
 }

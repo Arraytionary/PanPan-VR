@@ -31,6 +31,12 @@ public class SongListManager : MonoBehaviour
 
     AudioSource aS;
 
+    bool holding;
+    int called;
+
+    public GameObject centerExpanded;
+    Animator centerAnimator;
+    Expanded expanded;
     void Awake()
     {
         Debug.Log("Awake");
@@ -50,6 +56,10 @@ public class SongListManager : MonoBehaviour
     void Start()
     {
         aS = GetComponent<AudioSource>();
+        centerAnimator = centerExpanded.GetComponent<Animator>();
+        expanded = centerExpanded.GetComponent<Expanded>();
+
+        Utility.RequestBadge("Select song");
 
         //set up default position for each song label
         positions = new Vector3[songs.Length];
@@ -65,6 +75,7 @@ public class SongListManager : MonoBehaviour
         //Load up song data
         string json = Resources.Load<TextAsset>("List").ToString();
         songList = JsonConvert.DeserializeObject<List<Song>>(json);
+
         //sort songs by song name
         songList.Sort((x, y) => string.Compare(x.songName, y.songName));
         firstSong = songList.Count - 1;
@@ -78,9 +89,12 @@ public class SongListManager : MonoBehaviour
         {
             songs[i].song = songList[songsCount - center + i];
         }
+
         //play first song
         StartCoroutine(PlaySample(songs[center].song.fileName, songs[center].song.startAt));
-
+        //Set initial last press
+        expanded.song = songs[center].song;
+        lastPress = Time.time;
     }
 
     // Update is called once per frame
@@ -108,12 +122,60 @@ public class SongListManager : MonoBehaviour
             }
         }
         isLock = c != 0;
+
+        //adjust time before enter expanding mode
+        
+        if (now - lastPress > 0.8f && !holding)
+        {
+            Expand();
+            //Do label expand 
+        }
+        centerAnimator.SetBool("holding", holding);
+    }
+
+    public void Expand()
+    {
+        holding = true;
+        float centerPos = songs[center].transform.position.x;
+        for (int i = 0; i < songs.Length; i++)
+        {
+            oldPos[i] = positions[i];
+            if (i != center && i != leftEdge && i != rightEdge)
+            {
+                
+                if (songs[i].transform.position.x < centerPos)
+                {
+                    positions[i].x -= 4f;
+                }
+                else
+                {
+                    positions[i].x += 4f;
+                }
+            }
+            Debug.Log(string.Format("pos {0} i {1}", positions[i], i));
+            //Debug.Log(positions[i]);
+        }
+        expanded.song = songs[center].song;
+        Debug.Log(called++);
+    }
+
+    public void Repositioning()
+    {
+        if (holding)
+        {
+            for (int i = 0; i < songs.Length; i++)
+            {
+                songs[i].transform.position = oldPos[i];
+            }
+            holding = false;
+        }
     }
 
     public void GoLeft()
     {
         if (!isLock)
         {
+            Repositioning();
             center = center + 1 < songs.Length ? center + 1 : 0;
             //aS.Stop();
             //dspSongTime = (float)AudioSettings.dspTime;
@@ -148,6 +210,8 @@ public class SongListManager : MonoBehaviour
 
     public void Select()
     {
+        Utility.HideBadge();
+
         Drum.rightInner -= Select;
         Drum.rightOuter -= GoLeft;
         Drum.leftOuter -= GoRight;
@@ -163,6 +227,7 @@ public class SongListManager : MonoBehaviour
         Debug.Log("right");
         if (!isLock)
         {
+            Repositioning();
             center = center - 1 >= 0 ? center - 1 : songs.Length - 1;
             StopAllCoroutines();
             StartCoroutine(PlaySample(songs[center].song.fileName, songs[center].song.startAt));
@@ -195,7 +260,7 @@ public class SongListManager : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         MainValue.Instance.canDestroy = false;
         //stop what is currently playing
-        aS.Stop();
+        //aS.Stop();
         dspSongTime = (float)AudioSettings.dspTime;
         //load audio
         aS.clip = Resources.Load<AudioClip>(song);

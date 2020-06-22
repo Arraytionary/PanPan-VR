@@ -11,7 +11,9 @@ public class SongHolder : MonoBehaviour
     {
         if (song != null)
         {
-            GetComponentInChildren<TextMeshPro>().text = song.songName;
+            string toDisplay = song.songName.Replace(" ", "\n\n");
+            if(toDisplay.Length > 9) toDisplay = string.Concat(toDisplay.Substring(0, 9), ".");
+            GetComponentInChildren<TextMeshPro>().text = toDisplay;
         }
 
     }

@@ -19,8 +19,9 @@ public class MainValue : Singleton<MainValue>
     };
     public IDictionary<string, int> SceneIndex = new Dictionary<string, int>()
     {
-        { "SongList", 0},
-        {"MainGame", 1}
+        { "StartScene", 0},
+        { "SongList", 1},
+        {"MainGame", 2}
     };
     public string selectedMenu = "all song";
     public string crrScene = "mainGame";
@@ -31,4 +32,7 @@ public class MainValue : Singleton<MainValue>
     public int combo;
     public int score;
     public Song mainSong;
+
+    public string toDisplayOnBadge;
+    public bool requestedBadge = false;
 }

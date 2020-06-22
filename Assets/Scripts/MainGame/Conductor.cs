@@ -58,6 +58,8 @@ public class Conductor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Utility.RequestBadge(MainValue.Instance.mainSong.songName);
+
         //Load selected song
         song = MainValue.Instance.mainSong;
 
