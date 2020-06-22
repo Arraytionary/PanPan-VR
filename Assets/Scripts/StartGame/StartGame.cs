@@ -32,6 +32,10 @@ public class StartGame : MonoBehaviour
 
         MainValue.Instance.canDestroy = true;
         MainValue.Instance.sceneToLoad = "SongList";
+        Drum.rightInner -= EnterTheGame;
+        Drum.rightOuter -= EnterTheGame;
+        Drum.leftInner -= EnterTheGame;
+        Drum.leftOuter -= EnterTheGame;
     }
 
     private void OnEnable()
