@@ -102,7 +102,7 @@ public class Conductor : MonoBehaviour
         //,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
 
         distance = Mathf.Abs(register.transform.position.x - spawner.gameObject.transform.position.x);
-        Debug.Log(distance);
+        Invoke("ShowSummary", song.duration);
 
     }
 
@@ -147,5 +147,11 @@ public class Conductor : MonoBehaviour
     public float GetVelocity()
     {
         return distance/(offset*secPerBeat);
+    }
+
+    void ShowSummary()
+    {
+        MainValue.Instance.canDestroy = true;
+        MainValue.Instance.sceneToLoad = "ScoreSummary";
     }
 }

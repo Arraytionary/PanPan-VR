@@ -367,6 +367,7 @@ MonoBehaviour:
   - {fileID: 7612540446296917697, guid: b324fa7c692d0814eb1302c1be5f1d68, type: 3}
   - {fileID: 6753208835539235048, guid: d98a90ab1af941a4a8b6230403ff0e5a, type: 3}
   - {fileID: 7269980150140969070, guid: 8d9c05f672fbd20428d0970387dfedc4, type: 3}
+  - {fileID: 1100448613069660623, guid: 83b5bcf9796e68145a637963ac33fec6, type: 3}
   transition: {fileID: 1060542224}
 --- !u!4 &945775728
 Transform:

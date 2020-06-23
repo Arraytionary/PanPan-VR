@@ -21,7 +21,8 @@ public class MainValue : Singleton<MainValue>
     {
         { "StartScene", 0},
         { "SongList", 1},
-        {"MainGame", 2}
+        {"MainGame", 2},
+        {"ScoreSummary", 3}
     };
     public string selectedMenu = "all song";
     public string crrScene = "mainGame";
