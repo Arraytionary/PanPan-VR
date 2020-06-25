@@ -78,6 +78,7 @@ public class ScoringSystem : MonoBehaviour
             }
             barProgress = newProgress;
         }
+        MainValue.Instance.maxCombo = Mathf.Max(MainValue.Instance.maxCombo, combo);
         MainValue.Instance.combo = combo;
     }
 }

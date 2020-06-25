@@ -36,6 +36,16 @@ public class Utility : MonoBehaviour
         }
     }
 
+    public static void ResetScore()
+    {
+        MainValue.Instance.score = 0;
+        MainValue.Instance.maxCombo = 0;
+        MainValue.Instance.combo = 0;
+        MainValue.Instance.good = 0;
+        MainValue.Instance.ok = 0;
+        MainValue.Instance.bad = 0;
+    }
+
     public static void RequestBadge(string label)
     {
         MainValue.Instance.requestedBadge = true;

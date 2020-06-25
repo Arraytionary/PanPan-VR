@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using Newtonsoft.Json;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class SongListManager : MonoBehaviour
 {
@@ -37,13 +38,15 @@ public class SongListManager : MonoBehaviour
     public GameObject centerExpanded;
     Animator centerAnimator;
     Expanded expanded;
+
+    bool active = false;
     void Awake()
     {
         Debug.Log("Awake");
 
-        Drum.rightInner += Select;
-        Drum.rightOuter += GoLeft;
-        Drum.leftOuter += GoRight;
+        //Drum.rightInner += Select;
+        //Drum.rightOuter += GoLeft;
+        //Drum.leftOuter += GoRight;
 
         inputAction = new DefaultControl();
         inputAction.Gameplay.rightInner.performed += ctx => Select();
@@ -58,8 +61,6 @@ public class SongListManager : MonoBehaviour
         aS = GetComponent<AudioSource>();
         centerAnimator = centerExpanded.GetComponent<Animator>();
         expanded = centerExpanded.GetComponent<Expanded>();
-
-        Utility.RequestBadge("Select song");
 
         //set up default position for each song label
         positions = new Vector3[songs.Length];
@@ -81,6 +82,11 @@ public class SongListManager : MonoBehaviour
         firstSong = songList.Count - 1;
         lastSong = songs.Length/2;
         songsCount = songList.Count;
+        //preload each song
+        foreach (Song s in songList)
+        {
+            Resources.LoadAsync<AudioClip>(s.fileName);
+        }
         for (int i=center; i < songs.Length; i++)
         {
             songs[i].song = songList[i-center];
@@ -90,6 +96,18 @@ public class SongListManager : MonoBehaviour
             songs[i].song = songList[songsCount - center + i];
         }
 
+    }
+
+    void Activate()
+    {
+        Enable();
+        Utility.RequestBadge("Select song");
+        //listen to controller event
+        Drum.rightInner += Select;
+        Drum.rightOuter += GoLeft;
+        Drum.leftOuter += GoRight;
+        active = true;
+
         //play first song
         StartCoroutine(PlaySample(songs[center].song.fileName, songs[center].song.startAt));
         //Set initial last press
@@ -97,40 +115,60 @@ public class SongListManager : MonoBehaviour
         lastPress = Time.time;
     }
 
+    void InActivate()
+    {
+        Utility.HideBadge();
+
+        //stop listening to controller event
+        Drum.rightInner -= Select;
+        Drum.rightOuter -= GoLeft;
+        Drum.leftOuter -= GoRight;
+        Disable();
+        aS.Stop();
+        active = false;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        songPosition = (float)(AudioSettings.dspTime - dspSongTime);
-        if(songPosition < 3f)
+        if (MainValue.Instance.crrScene == "SongList" && MainValue.Instance.sceneToLoad == "")
         {
-            aS.volume += 0.003f;
-            //aS.volume += Mathf.Lerp(0, 1, songPosition / 3);
-            //Debug.Log(Mathf.Lerp(0, 1, songPosition / 3));
-        }
-        if (songPosition > 8f)
-        {
-            aS.volume -= 0.003f;
-        }
-        float now = Time.time;
-        int c = 0;
-        for (int i = 0; i < songs.Length; i++)
-        {
-            if (songs[i].transform.position != positions[i])
+            if (!active)
             {
-                songs[i].transform.position = Vector3.Lerp(songs[i].transform.position, positions[i], Mathf.Min((now - lastPress) * speed, 1f));
-                c++;
+                Activate();
             }
-        }
-        isLock = c != 0;
+            songPosition = (float)(AudioSettings.dspTime - dspSongTime);
+            if (songPosition < 3f)
+            {
+                aS.volume += 0.003f;
+                //aS.volume += Mathf.Lerp(0, 1, songPosition / 3);
+                //Debug.Log(Mathf.Lerp(0, 1, songPosition / 3));
+            }
+            if (songPosition > 8f)
+            {
+                aS.volume -= 0.003f;
+            }
+            float now = Time.time;
+            int c = 0;
+            for (int i = 0; i < songs.Length; i++)
+            {
+                if (songs[i].transform.position != positions[i])
+                {
+                    songs[i].transform.position = Vector3.Lerp(songs[i].transform.position, positions[i], Mathf.Min((now - lastPress) * speed, 1f));
+                    c++;
+                }
+            }
+            isLock = c != 0;
 
-        //adjust time before enter expanding mode
-        
-        if (now - lastPress > 0.8f && !holding)
-        {
-            Expand();
-            //Do label expand 
+            //adjust time before enter expanding mode
+
+            if (now - lastPress > 0.65f && !holding)
+            {
+                Expand();
+                //Do label expand 
+            }
+            centerAnimator.SetBool("holding", holding);
         }
-        centerAnimator.SetBool("holding", holding);
     }
 
     public void Expand()
@@ -152,11 +190,11 @@ public class SongListManager : MonoBehaviour
                     positions[i].x += 4f;
                 }
             }
-            Debug.Log(string.Format("pos {0} i {1}", positions[i], i));
+            //Debug.Log(string.Format("pos {0} i {1}", positions[i], i));
             //Debug.Log(positions[i]);
         }
         expanded.song = songs[center].song;
-        Debug.Log(called++);
+        //Debug.Log(called++);
     }
 
     public void Repositioning()
@@ -210,12 +248,8 @@ public class SongListManager : MonoBehaviour
 
     public void Select()
     {
-        Utility.HideBadge();
-
-        Drum.rightInner -= Select;
-        Drum.rightOuter -= GoLeft;
-        Drum.leftOuter -= GoRight;
-
+        InActivate();
+        //assign song;
         MainValue.Instance.mainClip = aS.clip;
         MainValue.Instance.mainSong = songs[center].song;
         MainValue.Instance.canDestroy = true;
@@ -271,13 +305,15 @@ public class SongListManager : MonoBehaviour
         aS.volume = 0;
     }
 
-    private void OnEnable()
+    private void Enable()
     {
+        Debug.Log("enabled");
         inputAction.Enable();
     }
 
-    private void OnDisable()
+    private void Disable()
     {
+        Debug.Log("disabled");
         inputAction.Disable();
     }
 }

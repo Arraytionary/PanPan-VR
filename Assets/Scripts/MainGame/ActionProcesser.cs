@@ -44,6 +44,8 @@ public class ActionProcesser : MonoBehaviour
     public GameObject hitText;
 
     public ScoringSystem scoringSystem;
+
+    int passed;
     // Start is called before the first frame update
     void Awake()
     {
@@ -67,6 +69,7 @@ public class ActionProcesser : MonoBehaviour
         rO = false;
 
         projectile = new Utility.Projectile(target.transform, 1.5f);
+        Utility.ResetScore();
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -76,12 +79,15 @@ public class ActionProcesser : MonoBehaviour
         {
             collision.gameObject.GetComponent<Note>().StampTime();
             note = collision.gameObject;
+
+            passed += 1;
         }
     }
 
     public void OnTriggerExit2D(Collider2D collision)
     {
-        entered = false;
+        if(passed > 1) { passed--; }
+        else entered = false;
     }
 
     //public void OnCollisionEnter2D(Collision2D collision)
@@ -106,6 +112,7 @@ public class ActionProcesser : MonoBehaviour
             hitAccuracy.SetTrigger("Good");
             Instantiate(hitParticles[0], hitAccuracy.transform.position, Quaternion.identity);
             scoringSystem.SubmitScore(1f);
+            MainValue.Instance.good += 1;
         }
         else {
             hitText.GetComponent<TextMeshPro>().text = "OK";
@@ -113,6 +120,7 @@ public class ActionProcesser : MonoBehaviour
             hitAccuracy.SetTrigger("Ok");
             Instantiate(hitParticles[1], hitAccuracy.transform.position, Quaternion.identity);
             scoringSystem.SubmitScore(0.5f);
+            MainValue.Instance.ok += 1;
         }
         
     }
@@ -122,6 +130,7 @@ public class ActionProcesser : MonoBehaviour
         hitText.GetComponent<TextMeshPro>().text = "BAD";
         hitText.GetComponent<Animator>().SetTrigger("bad");
         scoringSystem.SubmitScore(-1f);
+        MainValue.Instance.bad += 1;
     }
     public void HitRI()
     {

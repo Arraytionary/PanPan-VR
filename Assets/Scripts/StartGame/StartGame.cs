@@ -26,9 +26,6 @@ public class StartGame : MonoBehaviour
     public void EnterTheGame()
     {
         Debug.Log("press start");
-        Drum.rightInner -= EnterTheGame;
-        Drum.rightOuter -= EnterTheGame;
-        Drum.leftOuter -= EnterTheGame;
 
         MainValue.Instance.canDestroy = true;
         MainValue.Instance.sceneToLoad = "SongList";
@@ -36,6 +33,12 @@ public class StartGame : MonoBehaviour
         Drum.rightOuter -= EnterTheGame;
         Drum.leftInner -= EnterTheGame;
         Drum.leftOuter -= EnterTheGame;
+
+        OnDisable();
+        //inputAction.Gameplay.rightInner.performed -= ctx => EnterTheGame();
+        //inputAction.Gameplay.rightOuter.performed -= ctx => EnterTheGame();
+        //inputAction.Gameplay.leftInner.performed -= ctx => EnterTheGame();
+        //inputAction.Gameplay.leftOuter.performed -= ctx => EnterTheGame();
     }
 
     private void OnEnable()

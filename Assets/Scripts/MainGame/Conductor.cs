@@ -151,6 +151,9 @@ public class Conductor : MonoBehaviour
 
     void ShowSummary()
     {
+        MainValue.Instance.gameHasEnded = true;
+        musicSource.Stop();
+        Utility.HideBadge();
         MainValue.Instance.canDestroy = true;
         MainValue.Instance.sceneToLoad = "ScoreSummary";
     }

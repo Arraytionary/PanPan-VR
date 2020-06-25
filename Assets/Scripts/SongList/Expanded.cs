@@ -21,10 +21,14 @@ public class Expanded : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        songName.text = song.songName;
-        genre.text = "Genre: " + song.genre;
-        artist.text = "Artist: " + song.artist;
-        duration.text = "Duration: " + song.duration;
+        if (song != null)
+        {
+            songName.text = song.songName;
+            genre.text = "Genre: " + song.genre;
+            artist.text = "Artist: " + song.artist;
+            duration.text = "Duration: " + song.duration;
+        }
+
         //TODO make high score look up
     }
 }

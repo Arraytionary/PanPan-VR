@@ -11,6 +11,7 @@ public class SceneManager : MonoBehaviour
     GameObject crrScene;
     bool ready;
 
+    public Camera mainCamera;
     private void Start()
     {
         //instantiate start scene
@@ -19,7 +20,7 @@ public class SceneManager : MonoBehaviour
     }
     void AfterInserted()
     {
-        crrScene = Instantiate(startScene, transform.position, Quaternion.identity);
+        //crrScene = Instantiate(startScene, transform.position, Quaternion.identity);
         ready = true;
     }
 
@@ -37,14 +38,32 @@ public class SceneManager : MonoBehaviour
         }
     }
 
+    //public void LoadScene()
+    //{
+    //    Destroy(crrScene);
+    //    Debug.Log(MainValue.Instance.sceneToLoad);
+    //    Debug.Log(MainValue.Instance.SceneIndex);
+    //    MainValue.Instance.crrScene = MainValue.Instance.sceneToLoad;
+    //    crrScene = Instantiate(scenes[MainValue.Instance.SceneIndex[MainValue.Instance.sceneToLoad]], transform.position, Quaternion.identity);
+    //    MainValue.Instance.sceneToLoad = "";
+    //    ready = true;
+    //}
     public void LoadScene()
     {
-        Destroy(crrScene);
-        Debug.Log(MainValue.Instance.sceneToLoad);
-        Debug.Log(MainValue.Instance.SceneIndex);
+        switch (MainValue.Instance.sceneToLoad)
+        {
+            case "MainGame":
+                Debug.Log("main");
+                MainValue.Instance.gameHasEnded = false;
+                Instantiate(scenes[MainValue.Instance.SceneIndex[MainValue.Instance.sceneToLoad]], new Vector3(0, 10, 0), Quaternion.identity);
+                break;
+            default:
+                break;
+        }
+        mainCamera.transform.position = MainValue.Instance.CameraPostion[MainValue.Instance.sceneToLoad];
         MainValue.Instance.crrScene = MainValue.Instance.sceneToLoad;
-        crrScene = Instantiate(scenes[MainValue.Instance.SceneIndex[MainValue.Instance.sceneToLoad]], transform.position, Quaternion.identity);
         MainValue.Instance.sceneToLoad = "";
+        Debug.Log(MainValue.Instance);
         ready = true;
     }
 }

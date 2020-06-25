@@ -6,8 +6,10 @@ public class MainValue : Singleton<MainValue>
 {
     public IDictionary<string, Vector3> CameraPostion = new Dictionary<string, Vector3>()
     {
-        { "mainGame", new Vector3(0,0,-10) },
-        { "mainMenu", new Vector3(-22, 0, -10) }
+        { "StartScene",  new Vector3(0,0,-10)},
+        { "SongList",  new Vector3(24,0,-10)},
+        {"MainGame",  new Vector3(0, 10, -10)},
+        {"ScoreSummary",  new Vector3(48,0,-10)},
     };
     public IDictionary<string, float> FloatValue = new Dictionary<string, float>()
     {
@@ -30,9 +32,16 @@ public class MainValue : Singleton<MainValue>
     public bool canDestroy;
     public string sceneToLoad = "";
     public float crrSecPerBeat = 0f;
+
     public int combo;
+    public int good;
+    public int ok;
+    public int bad;
     public int score;
+    public int maxCombo;
     public Song mainSong;
+
+    public bool gameHasEnded = false;
 
     public string toDisplayOnBadge;
     public bool requestedBadge = false;
