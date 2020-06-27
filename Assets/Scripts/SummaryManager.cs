@@ -59,7 +59,7 @@ public class SummaryManager : MonoBehaviour
         Drum.rightInner += Next;
         Drum.rightOuter += Next;
         Drum.leftOuter += Next;
-        Drum.leftOuter += Next;
+        Drum.leftInner += Next;
 
     }
     void InActivate()
@@ -67,7 +67,7 @@ public class SummaryManager : MonoBehaviour
         Drum.rightInner -= Next;
         Drum.rightOuter -= Next;
         Drum.leftOuter -= Next;
-        Drum.leftOuter -= Next;
+        Drum.leftInner -= Next;
         Disable();
     }
     private void Enable()

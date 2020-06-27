@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MenuItem : MonoBehaviour
 {
-    public string name;
+    [SerializeField]
+    UnityEvent functionality;
+
+    public string holdedName;
     public float speed;
     bool selected;
     Vector3 originalScale;
@@ -19,7 +23,7 @@ public class MenuItem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (name == MainValue.Instance.selectedMenu)
+        if (holdedName == MainValue.Instance.selectedMenu)
         {
             transform.localScale = Vector3.Lerp(transform.localScale, selectedScale, speed*Time.deltaTime);
         }
@@ -27,5 +31,8 @@ public class MenuItem : MonoBehaviour
             transform.localScale = originalScale;
     }
 
-
+    public void Perform()
+    {
+        functionality.Invoke();
+    } 
 }

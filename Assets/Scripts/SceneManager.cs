@@ -61,6 +61,7 @@ public class SceneManager : MonoBehaviour
                 break;
         }
         mainCamera.transform.position = MainValue.Instance.CameraPostion[MainValue.Instance.sceneToLoad];
+        //MainValue.Instance.previousScene.Push(MainValue.Instance.crrScene);
         MainValue.Instance.crrScene = MainValue.Instance.sceneToLoad;
         MainValue.Instance.sceneToLoad = "";
         Debug.Log(MainValue.Instance);

@@ -28,7 +28,7 @@ public class StartGame : MonoBehaviour
         Debug.Log("press start");
 
         MainValue.Instance.canDestroy = true;
-        MainValue.Instance.sceneToLoad = "SongList";
+        MainValue.Instance.sceneToLoad = "MainMenu";
         Drum.rightInner -= EnterTheGame;
         Drum.rightOuter -= EnterTheGame;
         Drum.leftInner -= EnterTheGame;

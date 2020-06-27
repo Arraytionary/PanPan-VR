@@ -7,6 +7,8 @@ public class MainValue : Singleton<MainValue>
     public IDictionary<string, Vector3> CameraPostion = new Dictionary<string, Vector3>()
     {
         { "StartScene",  new Vector3(0,0,-10)},
+        { "MainMenu", new Vector3(-24, 0, -10)},
+        {"GenreList", new Vector3(-48, 0, -10)},
         { "SongList",  new Vector3(24,0,-10)},
         {"MainGame",  new Vector3(0, 10, -10)},
         {"ScoreSummary",  new Vector3(48,0,-10)},
@@ -26,8 +28,12 @@ public class MainValue : Singleton<MainValue>
         {"MainGame", 2},
         {"ScoreSummary", 3}
     };
+    public string[] genres;
+
     public string selectedMenu = "all song";
-    public string crrScene = "mainGame";
+    public string crrScene = "StartScene";
+    public Stack<string> previousScene = new Stack<string>();
+    public string genresFilter = "";
     public AudioClip mainClip;
     public bool canDestroy;
     public string sceneToLoad = "";

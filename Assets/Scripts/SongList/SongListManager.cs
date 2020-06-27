@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using Newtonsoft.Json;
+using System.Linq;
 using TMPro;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,7 @@ public class SongListManager : MonoBehaviour
 {
     DefaultControl inputAction;
 
+    List<Song> allSongList;
     List<Song> songList;
 
     public SongHolder[] songs;
@@ -51,7 +53,7 @@ public class SongListManager : MonoBehaviour
         inputAction = new DefaultControl();
         inputAction.Gameplay.rightInner.performed += ctx => Select();
         inputAction.Gameplay.rightOuter.performed += ctx => GoLeft();
-        //inputAction.Gameplay.leftInner.performed += ctx => HitLI();
+        inputAction.Gameplay.leftInner.performed += ctx => Back();
         inputAction.Gameplay.leftOuter.performed += ctx => GoRight();
         //inputAction.Gameplay.DoubleInner.performed += ctx => HitDI();
     }
@@ -75,37 +77,105 @@ public class SongListManager : MonoBehaviour
 
         //Load up song data
         string json = Resources.Load<TextAsset>("List").ToString();
-        songList = JsonConvert.DeserializeObject<List<Song>>(json);
+        allSongList = JsonConvert.DeserializeObject<List<Song>>(json);
+
+        //assign genre list to main values
+        allSongList.Sort((x, y) => string.Compare(x.genre, y.genre));
+        MainValue.Instance.genres = new string[allSongList.Count];
+        for ( int i = 0;  i < allSongList.Count; i++)
+        {
+            MainValue.Instance.genres[i] = allSongList[i].genre;
+        }
+        //get rid of duplicate genre
+        MainValue.Instance.genres = MainValue.Instance.genres.Distinct().ToArray();
 
         //sort songs by song name
-        songList.Sort((x, y) => string.Compare(x.songName, y.songName));
-        firstSong = songList.Count - 1;
-        lastSong = songs.Length/2;
-        songsCount = songList.Count;
+        allSongList.Sort((x, y) => string.Compare(x.songName, y.songName));
+        //songList.Sort((x, y) => string.Compare(x.songName, y.songName));
+        //firstSong = songList.Count - 1;
+        //lastSong = songs.Length/2;
+        //songsCount = songList.Count;
+
         //preload each song
-        foreach (Song s in songList)
+        foreach (Song s in allSongList)
         {
             Resources.LoadAsync<AudioClip>(s.fileName);
         }
-        for (int i=center; i < songs.Length; i++)
+        //for (int i=center; i < songs.Length; i++)
+        //{
+        //    songs[i].song = songList[i-center];
+        //}
+        //for (int i = 0; i < center; i++)
+        //{
+        //    songs[i].song = songList[songsCount - center + i];
+        //}
+
+    }
+    void CalculateSongsValue()
+    {
+        firstSong = songList.Count - 1;
+        lastSong = songs.Length / 2;
+        songsCount = songList.Count;
+    }
+
+    void GenerateSonglist()
+    {
+        songList = allSongList;
+        if (MainValue.Instance.genresFilter == "")
         {
-            songs[i].song = songList[i-center];
+            FilledList(songList);
+            CalculateSongsValue();
+            for (int i = center; i < songs.Length; i++)
+            {
+                songs[i].song = songList[i - center];
+            }
+            for (int i = 0; i < center; i++)
+            {
+                songs[i].song = songList[songsCount - center + i];
+            }
         }
-        for (int i = 0; i < center; i++)
+        else
         {
-            songs[i].song = songList[songsCount - center + i];
+            songList = songList.Where(_ => _.genre == MainValue.Instance.genresFilter).ToList();
+            FilledList(songList);
+            CalculateSongsValue();
+            for (int i = center; i < songs.Length; i++)
+            {
+                songs[i].song = songList[i - center];
+            }
+            for (int i = 0; i < center; i++)
+            {
+                songs[i].song = songList[songsCount - center + i];
+            }
         }
 
+
+    }
+
+    void FilledList(List<Song> l)
+    {
+        int idx = 0;
+        while(l.Count != 9)
+        {
+            Debug.Log(l[idx].songName);
+            if (idx >= l.Count) idx = 0;
+            l.Add(l[idx++]);
+        }
     }
 
     void Activate()
     {
+        //filter songlist
+        GenerateSonglist();
+
         Enable();
-        Utility.RequestBadge("Select song");
+        string badge = MainValue.Instance.genresFilter == "" ? "Select song" : MainValue.Instance.genresFilter;
+        Utility.RequestBadge(badge);
         //listen to controller event
         Drum.rightInner += Select;
         Drum.rightOuter += GoLeft;
         Drum.leftOuter += GoRight;
+        Drum.leftInner += Back;
         active = true;
 
         //play first song
@@ -123,6 +193,8 @@ public class SongListManager : MonoBehaviour
         Drum.rightInner -= Select;
         Drum.rightOuter -= GoLeft;
         Drum.leftOuter -= GoRight;
+        Drum.leftInner -= Back;
+
         Disable();
         aS.Stop();
         active = false;
@@ -254,6 +326,13 @@ public class SongListManager : MonoBehaviour
         MainValue.Instance.mainSong = songs[center].song;
         MainValue.Instance.canDestroy = true;
         MainValue.Instance.sceneToLoad = "MainGame";
+    }
+
+    public void Back()
+    {
+        InActivate();
+        MainValue.Instance.canDestroy = true;
+        MainValue.Instance.sceneToLoad = MainValue.Instance.previousScene.Pop();
     }
 
     public void GoRight()
