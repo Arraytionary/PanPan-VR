@@ -45,6 +45,7 @@ public class MainValue : Singleton<MainValue>
     public int bad;
     public int score;
     public int maxCombo;
+    public bool clear;
     public Song mainSong;
 
     public bool gameHasEnded = false;

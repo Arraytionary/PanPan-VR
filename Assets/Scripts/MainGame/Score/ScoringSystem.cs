@@ -13,6 +13,9 @@ public class ScoringSystem : MonoBehaviour
     int combo;
     int score;
     float barProgress;
+    bool clear = false;
+
+    public GameObject RainbowMask;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,17 +29,23 @@ public class ScoringSystem : MonoBehaviour
         //    }
         //    else bar[i].baseColor = color2;
         //}
+        barProgress = 43;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //check player progress
+        MainValue.Instance.clear = barProgress >= 34;
+
         if(barProgress == number - 1)
         {
             //enable mask mode
+            RainbowMask.SetActive(true);
         }
         else
         {
+            RainbowMask.SetActive(false);
             for (int i = 0; i < number; i++)
             {
                 if(i < barProgress)
