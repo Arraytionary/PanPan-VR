@@ -239,8 +239,12 @@ public class ActionProcesser : MonoBehaviour
         inputAction.Enable();
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         inputAction.Disable();
+        Drum.rightInner -= HitRI;
+        Drum.rightOuter -= HitRO;
+        Drum.leftInner -= HitLI;
+        Drum.leftOuter -= HitLO;
     }
 }

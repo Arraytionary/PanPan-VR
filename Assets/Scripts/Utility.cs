@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using Newtonsoft.Json;
 
 public class Utility : MonoBehaviour
 {
@@ -55,5 +57,24 @@ public class Utility : MonoBehaviour
     public static void HideBadge()
     {
         MainValue.Instance.requestedBadge = false;
+    }
+
+
+    public static void Save()
+    {
+        
+        string saveJson = JsonConvert.SerializeObject(MainValue.Instance.saveObjects);
+        SaveSystem.SaveGame(saveJson);
+    }
+
+    public static void Load()
+    {
+        string saveJson = SaveSystem.LoadGame();
+        if (saveJson != null)
+        {
+            MainValue.Instance.saveObjects = JsonConvert.DeserializeObject<Dictionary<string, SaveObject>>(saveJson);
+
+        }
+        else MainValue.Instance.saveObjects =  new Dictionary<string, SaveObject>();
     }
 }

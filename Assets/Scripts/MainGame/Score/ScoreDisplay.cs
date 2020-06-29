@@ -16,8 +16,12 @@ public class ScoreDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animator.SetTrigger("bounce");
-        tmp.text = MainValue.Instance.score.ToString();
+        
+        if(tmp.text != MainValue.Instance.score.ToString())
+        {
+            animator.SetTrigger("bounce");
+            tmp.text = MainValue.Instance.score.ToString();
+        }
 
     }
 }

@@ -36,7 +36,7 @@ public class ScoringSystem : MonoBehaviour
     void Update()
     {
         //check player progress
-        MainValue.Instance.clear = barProgress >= 34;
+        MainValue.Instance.cleared = barProgress >= 34;
 
         if(barProgress == number - 1)
         {

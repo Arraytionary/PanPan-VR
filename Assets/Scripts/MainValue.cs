@@ -30,9 +30,13 @@ public class MainValue : Singleton<MainValue>
     };
     public string[] genres;
 
+    public IDictionary<string, SaveObject> saveObjects;
+
     public string selectedMenu = "all song";
     public string crrScene = "StartScene";
     public Stack<string> previousScene = new Stack<string>();
+    //check does songlist is called by back()
+    public bool fromBack = false;
     public string genresFilter = "";
     public AudioClip mainClip;
     public bool canDestroy;
@@ -45,7 +49,7 @@ public class MainValue : Singleton<MainValue>
     public int bad;
     public int score;
     public int maxCombo;
-    public bool clear;
+    public bool cleared;
     public Song mainSong;
 
     public bool gameHasEnded = false;

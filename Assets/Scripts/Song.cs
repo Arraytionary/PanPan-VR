@@ -8,4 +8,6 @@
     public float duration;
     public double startAt;
     public int[] note;
+    public int highScore;
+    public bool cleared;
 }

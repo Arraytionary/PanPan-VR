@@ -60,6 +60,9 @@ public class SongListManager : MonoBehaviour
 
     void Start()
     {
+        //Load save file if exists
+        Utility.Load();
+
         aS = GetComponent<AudioSource>();
         centerAnimator = centerExpanded.GetComponent<Animator>();
         expanded = centerExpanded.GetComponent<Expanded>();
@@ -78,6 +81,17 @@ public class SongListManager : MonoBehaviour
         //Load up song data
         string json = Resources.Load<TextAsset>("List").ToString();
         allSongList = JsonConvert.DeserializeObject<List<Song>>(json);
+
+        //Load up score data
+        SaveObject saveObject = new SaveObject(0, false);
+        foreach(Song s in allSongList)
+        {
+            if (MainValue.Instance.saveObjects.TryGetValue(s.songName, out saveObject))
+            {
+                s.cleared = saveObject.cleared;
+                s.highScore = saveObject.highScore;
+            }
+        }
 
         //assign genre list to main values
         allSongList.Sort((x, y) => string.Compare(x.genre, y.genre));
@@ -120,36 +134,38 @@ public class SongListManager : MonoBehaviour
 
     void GenerateSonglist()
     {
-        songList = allSongList;
-        if (MainValue.Instance.genresFilter == "")
+        if (!MainValue.Instance.fromBack)
         {
-            FilledList(songList);
-            CalculateSongsValue();
-            for (int i = center; i < songs.Length; i++)
+            songList = allSongList;
+            if (MainValue.Instance.genresFilter == "")
             {
-                songs[i].song = songList[i - center];
+                FilledList(songList);
+                CalculateSongsValue();
+                for (int i = center; i < songs.Length; i++)
+                {
+                    songs[i].song = songList[i - center];
+                }
+                for (int i = 0; i < center; i++)
+                {
+                    songs[i].song = songList[songsCount - center + i];
+                }
             }
-            for (int i = 0; i < center; i++)
+            else
             {
-                songs[i].song = songList[songsCount - center + i];
+                songList = songList.Where(_ => _.genre == MainValue.Instance.genresFilter).ToList();
+                FilledList(songList);
+                CalculateSongsValue();
+                for (int i = center; i < songs.Length; i++)
+                {
+                    songs[i].song = songList[i - center];
+                }
+                for (int i = 0; i < center; i++)
+                {
+                    songs[i].song = songList[songsCount - center + i];
+                }
             }
         }
-        else
-        {
-            songList = songList.Where(_ => _.genre == MainValue.Instance.genresFilter).ToList();
-            FilledList(songList);
-            CalculateSongsValue();
-            for (int i = center; i < songs.Length; i++)
-            {
-                songs[i].song = songList[i - center];
-            }
-            for (int i = 0; i < center; i++)
-            {
-                songs[i].song = songList[songsCount - center + i];
-            }
-        }
-
-
+        MainValue.Instance.fromBack = false;
     }
 
     void FilledList(List<Song> l)
@@ -165,6 +181,7 @@ public class SongListManager : MonoBehaviour
 
     void Activate()
     {
+        Debug.Log(MainValue.Instance.fromBack);
         //filter songlist
         GenerateSonglist();
 
@@ -234,7 +251,7 @@ public class SongListManager : MonoBehaviour
 
             //adjust time before enter expanding mode
 
-            if (now - lastPress > 0.65f && !holding)
+            if (now - lastPress > 0.45f && !holding)
             {
                 Expand();
                 //Do label expand 
@@ -370,11 +387,13 @@ public class SongListManager : MonoBehaviour
 
     IEnumerator PlaySample(string song, double startAt)
     {
+        ResourceRequest rsr = Resources.LoadAsync<AudioClip>(song);
         yield return new WaitForSeconds(0.1f);
         MainValue.Instance.canDestroy = false;
         //stop what is currently playing
         //aS.Stop();
         dspSongTime = (float)AudioSettings.dspTime;
+        
         //load audio
         aS.clip = Resources.Load<AudioClip>(song);
         //play audio at given position
