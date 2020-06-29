@@ -58,12 +58,13 @@ public class SceneManager : MonoBehaviour
             case "MainGame":
                 Debug.Log("main");
                 MainValue.Instance.gameHasEnded = false;
-                Instantiate(scenes[MainValue.Instance.SceneIndex[MainValue.Instance.sceneToLoad]], new Vector3(0, 10, 0), Quaternion.identity);
+                Instantiate(scenes[MainValue.Instance.SceneIndex[MainValue.Instance.sceneToLoad]], transform.TransformPoint(new Vector3(0, 10, 0)), Quaternion.identity);
                 break;
             default:
                 break;
         }
-        mainCamera.transform.position = MainValue.Instance.CameraPostion[MainValue.Instance.sceneToLoad];
+        Debug.Log(mainCamera.transform.position);
+        mainCamera.transform.localPosition = MainValue.Instance.CameraPostion[MainValue.Instance.sceneToLoad];
         //MainValue.Instance.previousScene.Push(MainValue.Instance.crrScene);
         MainValue.Instance.crrScene = MainValue.Instance.sceneToLoad;
         MainValue.Instance.sceneToLoad = "";

@@ -132,7 +132,7 @@ public class Conductor : MonoBehaviour
                 //{
                 if (note[idx] != -1)
                 {
-                    spawner.SpawnNote(note[idx]);
+                    spawner.SpawnNote(note[idx], idx);
                 }
                 idx++;
 

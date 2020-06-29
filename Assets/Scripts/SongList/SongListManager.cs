@@ -283,6 +283,7 @@ public class SongListManager : MonoBehaviour
             //Debug.Log(positions[i]);
         }
         expanded.song = songs[center].song;
+        expanded.Expand();
         //Debug.Log(called++);
     }
 
@@ -387,7 +388,6 @@ public class SongListManager : MonoBehaviour
 
     IEnumerator PlaySample(string song, double startAt)
     {
-        ResourceRequest rsr = Resources.LoadAsync<AudioClip>(song);
         yield return new WaitForSeconds(0.1f);
         MainValue.Instance.canDestroy = false;
         //stop what is currently playing

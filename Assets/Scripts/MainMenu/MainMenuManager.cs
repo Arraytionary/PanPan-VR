@@ -8,6 +8,8 @@ public class MainMenuManager : MonoBehaviour
     int index;
     MenuItem selected;
     DefaultControl inputAction;
+
+    bool active = false;
     // Start is called before the first frame update
     void Awake()
     {
@@ -25,7 +27,7 @@ public class MainMenuManager : MonoBehaviour
     {
         if (MainValue.Instance.crrScene == "MainMenu" && MainValue.Instance.sceneToLoad == "")
         {
-            Activate();
+            if(!active) Activate();
         }
         //else
         //{
@@ -35,6 +37,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void GoRight()
     {
+        Debug.Log("fired");
         index++;
         if (index >= items.Length) index = 0;
         selected = items[index];
@@ -72,6 +75,7 @@ public class MainMenuManager : MonoBehaviour
         Drum.leftOuter += GoLeft;
         //Drum.leftInner += ;
 
+        active = true;
     }
     void InActivate()
     {
@@ -80,6 +84,7 @@ public class MainMenuManager : MonoBehaviour
         Drum.rightOuter -= GoRight;
         Drum.leftOuter -= GoLeft;
         //Drum.leftInner -= ;
+        active = false;
     }
 
     private void Enable()

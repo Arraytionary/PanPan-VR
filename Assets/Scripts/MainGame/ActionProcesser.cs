@@ -46,7 +46,11 @@ public class ActionProcesser : MonoBehaviour
     public ScoringSystem scoringSystem;
 
     int passed;
-    // Start is called before the first frame update
+
+    public Transform register;
+    public GameObject inner;
+    public GameObject outer;
+
     void Awake()
     {
         audioSource = gameObject.GetComponent<AudioSource>();
@@ -86,7 +90,9 @@ public class ActionProcesser : MonoBehaviour
 
     public void OnTriggerExit2D(Collider2D collision)
     {
-        if(passed > 1) { passed--; }
+        Debug.
+            Log("exited");
+        if(passed > 2) { passed--; }
         else entered = false;
     }
 
@@ -132,10 +138,11 @@ public class ActionProcesser : MonoBehaviour
         scoringSystem.SubmitScore(-1f);
         MainValue.Instance.bad += 1;
     }
+    //TODO implement method to give a score to drum roll note
     public void HitRI()
     {
 
-        audioSource.PlayOneShot(center);
+        //audioSource.PlayOneShot(center);
         //animator.SetTrigger("pressed");
         PlayAnim(animatorRI);
         lastRI = Time.time;
@@ -151,10 +158,12 @@ public class ActionProcesser : MonoBehaviour
             HitQuality(note.GetComponent<Note>().collideTime);
             projectile.Throw(note.transform, note);
         }
-        if (entered && note.GetComponent<Note>().type.Equals("4") || entered && note.GetComponent<Note>().type.Equals("5") || entered && note.GetComponent<Note>().type.Equals("6"))
+        if (entered && note.GetComponent<Note>().type.Equals("4"))
         {
             HitQuality(note.GetComponent<Note>().collideTime);
-            projectile.Throw(note.transform, note);
+            GameObject toThrow = Instantiate(inner, register.position, Quaternion.identity);
+            toThrow.GetComponent<SpriteRenderer>().sortingOrder = 3;
+            projectile.Throw(toThrow.transform, toThrow);
         }
         //Debug.Log("right inner");
         //if (!ctx.performed)
@@ -165,7 +174,7 @@ public class ActionProcesser : MonoBehaviour
     public void HitRO()
     {
 
-        audioSource.PlayOneShot(rim);
+        //audioSource.PlayOneShot(rim);
         PlayAnim(animatorRO);
         lastRO = Time.time;
         if (entered && note.GetComponent<Note>().type.Equals("1"))
@@ -179,13 +188,20 @@ public class ActionProcesser : MonoBehaviour
             HitQuality(note.GetComponent<Note>().collideTime);
             projectile.Throw(note.transform, note);
         }
+        if (entered && note.GetComponent<Note>().type.Equals("4"))
+        {
+            HitQuality(note.GetComponent<Note>().collideTime);
+            GameObject toThrow = Instantiate(outer, register.position, Quaternion.identity);
+            toThrow.GetComponent<SpriteRenderer>().sortingOrder = 3;
+            projectile.Throw(toThrow.transform, toThrow);
+        }
         //Debug.Log("right outer");
     }
 
     public void HitLI()
     {
   
-        audioSource.PlayOneShot(center);
+        //audioSource.PlayOneShot(center);
         PlayAnim(animatorLI);
         lastLI = Time.time;
         if (entered && note.GetComponent<Note>().type.Equals("0"))
@@ -199,13 +215,21 @@ public class ActionProcesser : MonoBehaviour
             HitQuality(note.GetComponent<Note>().collideTime);
             projectile.Throw(note.transform, note);
         }
+        if (entered && note.GetComponent<Note>().type.Equals("4"))
+        {
+            HitQuality(note.GetComponent<Note>().collideTime);
+            GameObject toThrow = Instantiate(inner, register.position, Quaternion.identity);
+            toThrow.GetComponent<SpriteRenderer>().sortingOrder = 3;
+            projectile.Throw(toThrow.transform, toThrow);
+        }
+
         //Debug.Log("left inner");
     }
 
     public void HitLO()
     {
 
-        audioSource.PlayOneShot(rim);
+        //audioSource.PlayOneShot(rim);
         PlayAnim(animatorLO);
         lastLO = Time.time;
         if (entered && note.GetComponent<Note>().type.Equals("1"))
@@ -218,6 +242,13 @@ public class ActionProcesser : MonoBehaviour
         {
             HitQuality(note.GetComponent<Note>().collideTime);
             projectile.Throw(note.transform, note);
+        }
+        if (entered && note.GetComponent<Note>().type.Equals("4"))
+        {
+            HitQuality(note.GetComponent<Note>().collideTime);
+            GameObject toThrow = Instantiate(outer, register.position, Quaternion.identity);
+            toThrow.GetComponent<SpriteRenderer>().sortingOrder = 3;
+            projectile.Throw(toThrow.transform, toThrow);
         }
         //Debug.Log("left outer");
     }

@@ -14,12 +14,6 @@ public class Spawner : MonoBehaviour
         //InvokeRepeating("SpawnNorm", 0f, 2f);
         //InvokeRepeating("SpawnNote", 0f, 0.5f);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void SpawnNorm()
     {
         norm.GetComponentInChildren<Note>().velocity = cd.GetVelocity();
@@ -27,7 +21,7 @@ public class Spawner : MonoBehaviour
         //yield return new WaitForSeconds(2);
         //StartCoroutine(SpawnNorm());
     }
-    public void SpawnNote(int idx)
+    public void SpawnNote(int idx, int orderInLayer)
     {
         //int idx = Random.Range(0, 4);
         //Debug.Log(idx);
@@ -35,6 +29,7 @@ public class Spawner : MonoBehaviour
         //may have to change this to singleton
         n.GetComponent<Note>().velocity = cd.GetVelocity();
         //n.GetComponent<Note>().velocity = 2f;
+        n.GetComponent<SpriteRenderer>().sortingOrder = -orderInLayer;
         Instantiate(n, transform.position, Quaternion.identity);
         //yield return new WaitForSeconds(0.5f);
         //StartCoroutine(SpawnNote());

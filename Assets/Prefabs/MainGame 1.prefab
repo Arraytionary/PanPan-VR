@@ -3719,7 +3719,7 @@ MonoBehaviour:
   - {fileID: 4488484046066335039, guid: 50f7cd1a36672224596ac0e53e259c78, type: 3}
   - {fileID: 2529885490769605398, guid: 294d7758d85a7434bae685a5a2635187, type: 3}
   - {fileID: 221478673007464543, guid: 0691eec9637a9fb4795eeb18e087ce2a, type: 3}
-  - {fileID: 3627963324436145850, guid: bda2b88ad86f36c40a961dfd51d8995c, type: 3}
+  - {fileID: 849927846438081781, guid: fd2d0a12332b03c46b7299ef09d5a821, type: 3}
   - {fileID: 6714734791496422840, guid: 6b445c606e785dd478fd0312b8d8441a, type: 3}
   - {fileID: 1743935094631695994, guid: 67760a91937accd458f66e7284472d79, type: 3}
   cd: {fileID: 7269980149841291717}
@@ -8784,6 +8784,9 @@ MonoBehaviour:
   rim: {fileID: 8300000, guid: 223d3028fc1bbad4e8b95b5f77468f12, type: 3}
   hitText: {fileID: 7269980150527146470}
   scoringSystem: {fileID: 7269980149638470302}
+  register: {fileID: 7269980151023506495}
+  inner: {fileID: 5998390672862167482, guid: cca342f1d2269b643ac52c9e02d76e0f, type: 3}
+  outer: {fileID: 4488484046066335039, guid: 50f7cd1a36672224596ac0e53e259c78, type: 3}
 --- !u!82 &7269980150679847391
 AudioSource:
   m_ObjectHideFlags: 0
@@ -12636,7 +12639,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1363359893
   m_SortingLayer: 2
-  m_SortingOrder: 6
+  m_SortingOrder: 7
 --- !u!33 &7269980151350237914
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -12806,6 +12809,7 @@ GameObject:
   - component: {fileID: 7269980151353285865}
   - component: {fileID: 7269980151353285863}
   - component: {fileID: 7269980151353285862}
+  - component: {fileID: 3983071579981419403}
   m_Layer: 0
   m_Name: Target
   m_TagString: Untagged
@@ -12834,15 +12838,15 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7269980151353285864}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.43298984, y: -0.645823}
+  m_Offset: {x: 0.47358465, y: -0.645823}
   serializedVersion: 2
-  m_Radius: 0.3404138
+  m_Radius: 0.38100863
 --- !u!114 &7269980151353285862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12857,6 +12861,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bloom: {fileID: 5636551688285911343, guid: 680498a98b7870342a065ce7b046fbbe, type: 3}
   flash: {fileID: 5759830466940237734, guid: 337218b52e7f82449b71b46dd9a098d6, type: 3}
+--- !u!61 &3983071579981419403
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7269980151353285864}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.56156063, y: -0.39241582}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.0676575, y: 0.025725722}
+  m_EdgeRadius: 0
 --- !u!1 &7269980151357346686
 GameObject:
   m_ObjectHideFlags: 0

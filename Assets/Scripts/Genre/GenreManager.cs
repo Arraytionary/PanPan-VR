@@ -9,6 +9,7 @@ public class GenreManager : MonoBehaviour
     string[] genres;
     int idx;
     public TextMeshPro selectedGenre;
+    bool active = false;
 
     void Awake()
     {
@@ -24,7 +25,7 @@ public class GenreManager : MonoBehaviour
     {
         if (MainValue.Instance.crrScene == "GenreList" && MainValue.Instance.sceneToLoad == "")
         {
-            Activate();
+            if(!active) Activate();
         }
         //else
         //{
@@ -73,6 +74,7 @@ public class GenreManager : MonoBehaviour
         Drum.rightOuter += GoRight;
         Drum.leftOuter += GoLeft;
         Drum.leftInner += Back;
+        active = true;
 
     }
     void InActivate()
@@ -83,6 +85,7 @@ public class GenreManager : MonoBehaviour
         Drum.rightOuter -= GoRight;
         Drum.leftOuter -= GoLeft;
         Drum.leftInner -= Back;
+        active = false;
     }
 
     private void Enable()

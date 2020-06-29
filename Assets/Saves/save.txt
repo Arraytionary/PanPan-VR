@@ -1,1 +1,1 @@
-{"Cruel Angel Thesis":{"highScore":406,"cleared":true}}
+{"Cruel Angel Thesis":{"highScore":265,"cleared":true}}
