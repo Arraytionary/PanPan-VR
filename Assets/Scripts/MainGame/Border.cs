@@ -15,7 +15,10 @@ public class Border : MonoBehaviour
     {
 
         Debug.Log(collision.gameObject);
-        ap.ReportMiss();
-        Destroy(collision.gameObject);
+        if(collision.gameObject.layer == 9)
+        {
+            ap.ReportMiss(collision.gameObject);
+        }
+        Destroy(collision.gameObject, 4f);
     }
 }

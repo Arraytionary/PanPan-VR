@@ -93,6 +93,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8157912519141395676, guid: bfbeeb7f58a7e7344a5a4ea520420f19,
         type: 3}
+    - target: {fileID: 1166577613632600521, guid: cca342f1d2269b643ac52c9e02d76e0f,
+        type: 3}
+      propertyPath: velocity
+      value: 5.9648
+      objectReference: {fileID: 0}
     - target: {fileID: 4654312784034005992, guid: cca342f1d2269b643ac52c9e02d76e0f,
         type: 3}
       propertyPath: m_SortingLayerID

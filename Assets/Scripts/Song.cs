@@ -10,4 +10,5 @@
     public int[] note;
     public int highScore;
     public bool cleared;
+    public float startOffset;
 }

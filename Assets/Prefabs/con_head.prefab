@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 6789460104778083015}
   - component: {fileID: 7959742213529357241}
   - component: {fileID: -8796403434017183295}
-  m_Layer: 9
+  - component: {fileID: -4410580445562615445}
+  m_Layer: 11
   m_Name: con_head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +102,7 @@ MonoBehaviour:
   collideTime: 0
   dec: 0
   image: {fileID: 0}
-  velocity: 5.5594664
+  velocity: 5.9648
   text: 
 --- !u!58 &7959742213529357241
 CircleCollider2D:
@@ -110,15 +111,15 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 849927846438081781}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.03379639, y: 0}
+  m_Offset: {x: 1.2084575, y: -0.76667273}
   serializedVersion: 2
-  m_Radius: 2.9523435
+  m_Radius: 3.7846513
 --- !u!50 &-8796403434017183295
 Rigidbody2D:
   serializedVersion: 4
@@ -140,6 +141,32 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!61 &-4410580445562615445
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849927846438081781}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 2.8709035, y: 0.0000009536743}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 8, y: 8}
+    newSize: {x: 8, y: 8}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 11.881785, y: 5.7356205}
+  m_EdgeRadius: 0
 --- !u!1 &5615365601151628798
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,7 +177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1731954242726029877}
   - component: {fileID: 6792599334971537324}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Continue middle Variant 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -21,7 +21,7 @@ TagManager:
   - Norm
   - Note
   - PostProcessing
-  - 
+  - DrumRoll
   - 
   - 
   - 
@@ -48,6 +48,9 @@ TagManager:
     locked: 0
   - name: Note
     uniqueID: 1706994487
+    locked: 0
+  - name: DrumRoll
+    uniqueID: 2677599575
     locked: 0
   - name: Norm
     uniqueID: 2931607403

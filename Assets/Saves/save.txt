@@ -1,1 +1,1 @@
-{"Cruel Angel Thesis":{"highScore":265,"cleared":true}}
+{"Cruel Angel Thesis":{"highScore":88,"cleared":true},"Bubblegum kk!":{"highScore":81,"cleared":true},"Inferno":{"highScore":628,"cleared":false}}

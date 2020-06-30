@@ -100,7 +100,7 @@ MonoBehaviour:
   collideTime: 0
   dec: 1
   image: {fileID: 0}
-  velocity: 5.5594664
+  velocity: 5.9648
   text: 
 --- !u!50 &-2069500286848706962
 Rigidbody2D:

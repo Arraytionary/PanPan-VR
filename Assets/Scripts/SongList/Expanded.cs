@@ -20,7 +20,7 @@ public class Expanded : MonoBehaviour
     }
 
     // Update is called once per frame
-    public void Expand()
+    public void Update()
     {
         if (song != null)
         {

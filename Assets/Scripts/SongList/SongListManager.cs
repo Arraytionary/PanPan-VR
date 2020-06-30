@@ -171,7 +171,7 @@ public class SongListManager : MonoBehaviour
     void FilledList(List<Song> l)
     {
         int idx = 0;
-        while(l.Count != 9)
+        while(l.Count < 9)
         {
             Debug.Log(l[idx].songName);
             if (idx >= l.Count) idx = 0;
@@ -283,7 +283,7 @@ public class SongListManager : MonoBehaviour
             //Debug.Log(positions[i]);
         }
         expanded.song = songs[center].song;
-        expanded.Expand();
+        //expanded.Expand();
         //Debug.Log(called++);
     }
 
