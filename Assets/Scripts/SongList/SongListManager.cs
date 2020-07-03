@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Linq;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEngine.Networking;
 
 public class SongListManager : MonoBehaviour
 {
@@ -42,6 +43,7 @@ public class SongListManager : MonoBehaviour
     Expanded expanded;
 
     bool active = false;
+
     void Awake()
     {
         Debug.Log("Awake");
@@ -57,9 +59,27 @@ public class SongListManager : MonoBehaviour
         inputAction.Gameplay.leftOuter.performed += ctx => GoRight();
         //inputAction.Gameplay.DoubleInner.performed += ctx => HitDI();
     }
+     
+
+    IEnumerator LoadSongAsset(string fileName)
+    {
+        Debug.Log("hej");
+        return null;
+        //AssetBundleCreateRequest bundle = AssetBundle.LoadFromFileAsync(SONG_FOLDER + fileName);
+        //yield return bundle;
+        //AssetBundle loadedBundle = bundle.assetBundle;
+        //AssetBundleRequest assetLoadRequest = loadedBundle.LoadAllAssetsAsync<AudioClip>();
+        //yield return assetLoadRequest;
+        //aS.clip = assetLoadRequest.asset as AudioClip;
+        //aS.PlayScheduled(0);
+        //aS.time = 0f;
+        //aS.volume = 0;
+        //loadedBundle.Unload(false);
+    }
 
     void Start()
     {
+        allSongList = Utility.LoadList();
         //Load save file if exists
         Utility.Load();
 
@@ -78,9 +98,9 @@ public class SongListManager : MonoBehaviour
         leftEdge = 0;
         rightEdge = songs.Length - 1;
 
-        //Load up song data
-        string json = Resources.Load<TextAsset>("List").ToString();
-        allSongList = JsonConvert.DeserializeObject<List<Song>>(json);
+        ////Load up song data
+        //string json = Resources.Load<TextAsset>("List").ToString();
+        //allSongList = JsonConvert.DeserializeObject<List<Song>>(json);
 
         //Load up score data
         SaveObject saveObject = new SaveObject(0, false);
@@ -111,10 +131,7 @@ public class SongListManager : MonoBehaviour
         //songsCount = songList.Count;
 
         //preload each song
-        foreach (Song s in allSongList)
-        {
-            Resources.LoadAsync<AudioClip>(s.fileName);
-        }
+
         //for (int i=center; i < songs.Length; i++)
         //{
         //    songs[i].song = songList[i-center];
@@ -340,6 +357,7 @@ public class SongListManager : MonoBehaviour
     {
         InActivate();
         //assign song;
+        while (aS.clip == null) { }
         MainValue.Instance.mainClip = aS.clip;
         MainValue.Instance.mainSong = songs[center].song;
         MainValue.Instance.canDestroy = true;
@@ -393,14 +411,24 @@ public class SongListManager : MonoBehaviour
         //stop what is currently playing
         //aS.Stop();
         dspSongTime = (float)AudioSettings.dspTime;
-        
+
         //load audio
-        aS.clip = Resources.Load<AudioClip>(song);
-        //play audio at given position
+
+        //UnityWebRequest file = UnityWebRequestMultimedia.GetAudioClip(SONG_FOLDER+song, AudioType.WAV);
+        yield return StartCoroutine(Utility.LoadSong(song, aS));
+        //AssetBundle loadedBundle = file.
+        //AssetBundleRequest assetLoadRequest = loadedBundle.LoadAssetAsync<AudioClip>(song);
+        //yield return assetLoadRequest;
+        //aS.clip = DownloadHandlerAudioClip.GetContent(file);
         aS.PlayScheduled(startAt);
-        //aS.PlayOneShot(Resources.Load<AudioClip>(song));
         aS.time = (float)startAt;
         aS.volume = 0;
+        //loadedBundle.Unload(false);
+        //aS.clip = Resources.Load<AudioClip>(song);
+        //play audio at given position
+        //aS.PlayScheduled(startAt);
+        //aS.time = (float)startAt;
+        //aS.volume = 0;
     }
 
     private void Enable()

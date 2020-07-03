@@ -21,9 +21,10 @@ public class SceneManager : MonoBehaviour
     }
     void AfterInserted()
     {
-        //crrScene = Instantiate(startScene, transform.position, Quaternion.identity);
+        Instantiate(startScene, transform.position, Quaternion.identity);
         //Load save file if exists
         //Utility.Load();
+        //insertCoin.inserted -= AfterInserted;
         ready = true;
     }
 

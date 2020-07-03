@@ -85,18 +85,27 @@ public class ActionProcesser : MonoBehaviour
         {
             entered = true;
             collision.gameObject.GetComponent<Note>().StampTime();
-            enteredQueue.Enqueue(collision.gameObject);
+            //enteredQueue.Enqueue(collision.gameObject);
             note = collision.gameObject;
         }
+        //else if(collision.gameObject.layer == 11)
+        //{
+        //    entered = true;
+        //    note = collision.gameObject;
+        //}
     }
 
     public void OnTriggerExit2D(Collider2D collision)
     {
-        if (enteredQueue.Count != 0)
+        if(note == collision.gameObject)
         {
-            enteredQueue.Dequeue();
-            entered = enteredQueue.Count != 0;
+            entered = false;
         }
+        //if (enteredQueue.Count != 0)
+        //{
+        //    enteredQueue.Dequeue();
+        //    entered = enteredQueue.Count != 0;
+        //}
 
         //if (collision.gameObject.layer == 9 || collision.gameObject.layer == 11)
         //{
@@ -292,7 +301,7 @@ public class ActionProcesser : MonoBehaviour
         inputAction.Enable();
     }
 
-    private void OnFreporty()
+    private void OnDestroy()
     {
         inputAction.Disable();
         Drum.rightInner -= HitRI;

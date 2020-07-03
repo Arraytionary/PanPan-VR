@@ -77,4 +77,15 @@ public class Utility : MonoBehaviour
         }
         else MainValue.Instance.saveObjects =  new Dictionary<string, SaveObject>();
     }
+
+    public static List<Song> LoadList()
+    {
+        string songList = SaveSystem.LoadSongList();
+        return JsonConvert.DeserializeObject<List<Song>>(songList);
+    }
+
+    public static IEnumerator LoadSong(string fileName, AudioSource audioSource)
+    {
+        return SaveSystem.LoadSong(fileName, audioSource);
+    }
 }

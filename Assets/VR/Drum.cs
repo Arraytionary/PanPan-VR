@@ -116,11 +116,11 @@ using UnityEngine.InputSystem;
             {
                 case "red":
                     spotlight.color = new Color(1f, 0f, 0.05529642f);
-                    spotlight.intensity = 2.8f;
+                    spotlight.intensity += 1.6f;
                     break;
                 case "blue":
                     spotlight.color = new Color(0.1933962f, 0.5657321f, 1f);
-                    spotlight.intensity = 2.8f;
+                    spotlight.intensity += 1.6f;
                     break;
                 default:
                     break;

@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.Networking;
 
 public static class SaveSystem
 {
     public static readonly string SAVE_FOLDER = Application.dataPath + "/Saves/";
+    public static readonly string SONG_FOLDER = SONG_FOLDER = Application.dataPath + "/Songs/";
 
     public static void Init()
     {
@@ -30,5 +32,27 @@ public static class SaveSystem
             return saveString;
         }
         else return null;
+    }
+
+    public static string LoadSongList()
+    {
+        if (!Directory.Exists(SONG_FOLDER))
+        {
+            //create save folder
+            Directory.CreateDirectory(SONG_FOLDER);
+        }
+        string songJson = "";
+        if (File.Exists(SONG_FOLDER + "/List.json"))
+        {
+            songJson = File.ReadAllText(SONG_FOLDER + "List.json");
+        }
+        return songJson;
+    }
+
+    public static IEnumerator LoadSong(string fileName, AudioSource audioScource)
+    {
+        UnityWebRequest file = UnityWebRequestMultimedia.GetAudioClip(SONG_FOLDER + fileName, AudioType.WAV);
+        yield return file.SendWebRequest();
+        audioScource.clip = DownloadHandlerAudioClip.GetContent(file);
     }
 }
