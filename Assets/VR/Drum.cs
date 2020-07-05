@@ -36,8 +36,9 @@ using UnityEngine.InputSystem;
                 
                 //collision.gameObject.GetComponent<XRGrabInteractable>().movementType = XRBaseInteractable.MovementType.VelocityTracking;
             {
-                collision.gameObject.GetComponent<Stick>().CoolDown(Time.time);
-                collision.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            //collision.gameObject.GetComponent<Stick>().CoolDown(Time.time);
+            Stick stick = collision.gameObject.GetComponent<Stick>();
+            collision.gameObject.GetComponent<Rigidbody>().isKinematic = false;
                 //FixedJoint joint = gameObject.AddComponent<FixedJoint>();
                 //ContactPoint contact = collision.contacts[0];
                 //joint.anchor = transform.InverseTransformPoint(contact.point);
@@ -56,13 +57,11 @@ using UnityEngine.InputSystem;
                         {
                             sound.playSound(0);
                             Emit("red");
-                            if (rightInner != null)
-                            {
-                                rightInner();
-                            }
-                            //BroadcastMessage("HitRI");
-                            //ap.HitRI();
+                        rightInner?.Invoke();
+                        //BroadcastMessage("HitRI");
+                        //ap.HitRI();
                             MainValue.Instance.FloatValue["right"] = Time.time;
+                            stick.Hitted(0.7f, 0.15f);
                         }
 
                         break;
@@ -71,11 +70,9 @@ using UnityEngine.InputSystem;
                         {
                             sound.playSound(0);
                             Emit("red");
-                            if (leftInner != null)
-                            {
-                                leftInner();
-                            }
+                            leftInner?.Invoke();
                             MainValue.Instance.FloatValue["left"] = Time.time;
+                            stick.Hitted(0.7f, 0.15f);
                         }
                         break;
                     case "oleft":
@@ -83,11 +80,9 @@ using UnityEngine.InputSystem;
                         {
                             sound.playSound(1);
                             Emit("blue");
-                            if(leftOuter != null)
-                            {
-                                leftOuter();
-                            }
+                            leftOuter?.Invoke();
                             MainValue.Instance.FloatValue["left"] = Time.time;
+                            stick.Hitted(0.4f, 0.1f);
                         }
                         break;
                     case "oright":
@@ -95,11 +90,9 @@ using UnityEngine.InputSystem;
                         {
                             sound.playSound(1);
                             Emit("blue");
-                            if (rightOuter != null)
-                            {
-                                rightOuter();
-                            }
-                        MainValue.Instance.FloatValue["right"] = Time.time;
+                            rightOuter?.Invoke();
+                            MainValue.Instance.FloatValue["right"] = Time.time;
+                            stick.Hitted(0.4f, 0.1f);
                         }
                         break;
                     default:

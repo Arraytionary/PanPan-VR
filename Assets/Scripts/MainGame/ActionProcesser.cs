@@ -74,7 +74,7 @@ public class ActionProcesser : MonoBehaviour
         rI = false;
         rO = false;
 
-        projectile = new Utility.Projectile(target.transform, 1.5f);
+        projectile = new Utility.Projectile(target.transform, 0.75f);
         Utility.ResetScore();
         enteredQueue = new Queue<GameObject>();
     }
@@ -125,11 +125,11 @@ public class ActionProcesser : MonoBehaviour
 
     // Update is called once per frame
 
-    public void HitQuality(float time)
+    public void HitQuality(float xPos)
     {
         Debug.Log("quality measured got called");
         //goodHit
-        if (Time.time - time <= MainValue.Instance.crrSecPerBeat / 3)
+        if (Mathf.Abs(register.transform.position.x - xPos) <= 0.3f)
         {
             hitText.GetComponent<TextMeshPro>().text = "GOOD";
             hitText.GetComponent<Animator>().SetTrigger("good");
@@ -172,13 +172,13 @@ public class ActionProcesser : MonoBehaviour
         if (entered && note.GetComponent<Note>().type.Equals("0"))
         {
             Debug.Log("before call for measurement");
-            HitQuality(note.GetComponent<Note>().collideTime);
+            HitQuality(note.transform.position.x);
             //note.GetComponent<Note>().Decrease();
             projectile.Throw(note.transform, note);
         }
         if (entered && note.GetComponent<Note>().type.Equals("2") && Time.time - lastLI <= allowDuration)
         {
-            HitQuality(note.GetComponent<Note>().collideTime);
+            HitQuality(note.transform.position.x);
             projectile.Throw(note.transform, note);
         }
         if (entered && note.GetComponent<Note>().type.Equals("4"))
@@ -187,17 +187,18 @@ public class ActionProcesser : MonoBehaviour
             //GameObject toThrow = inner;
             //toThrow.GetComponent<Note>().enabled = false;
             //toThrow.GetComponent<SpriteRenderer>().sortingOrder = 8;
-            StartCoroutine(spr());
+            StartCoroutine(ThrowDrumRollNote());
         }
         //Debug.Log("right inner");
         //if (!ctx.performed)
         //    return;
         //animator.SetBool("Pressed", false);
     }
-    IEnumerator spr()
+    IEnumerator ThrowDrumRollNote()
     {
         yield return new WaitForSeconds(0.07f);
         GameObject toThrow = Instantiate(inner, register.position, Quaternion.identity);
+        scoringSystem.SubmitScore(0.5f);
         Debug.Log(note);
         projectile.Throw(toThrow.transform, toThrow);
 
@@ -211,20 +212,17 @@ public class ActionProcesser : MonoBehaviour
         if (entered && note.GetComponent<Note>().type.Equals("1"))
         {
             //note.GetComponent<Note>().Decrease();
-            HitQuality(note.GetComponent<Note>().collideTime);
+            HitQuality(note.transform.position.x);
             projectile.Throw(note.transform, note);
         }
         if (entered && note.GetComponent<Note>().type.Equals("3") && Time.time - lastLO <= allowDuration)
         {
-            HitQuality(note.GetComponent<Note>().collideTime);
+            HitQuality(note.transform.position.x);
             projectile.Throw(note.transform, note);
         }
         if (entered && note.GetComponent<Note>().type.Equals("4"))
         {
-            HitQuality(note.GetComponent<Note>().collideTime);
-            GameObject toThrow = Instantiate(outer, register.position, Quaternion.identity);
-            toThrow.GetComponent<SpriteRenderer>().sortingOrder = 8;
-            projectile.Throw(toThrow.transform, toThrow);
+            StartCoroutine(ThrowDrumRollNote());
         }
         //Debug.Log("right outer");
     }
@@ -238,20 +236,17 @@ public class ActionProcesser : MonoBehaviour
         if (entered && note.GetComponent<Note>().type.Equals("0"))
         {
             //note.GetComponent<Note>().Decrease();
-            HitQuality(note.GetComponent<Note>().collideTime);
+            HitQuality(note.transform.position.x);
             projectile.Throw(note.transform, note);
         }
         if (entered && note.GetComponent<Note>().type.Equals("2") && Time.time - lastRI <= allowDuration)
         {
-            HitQuality(note.GetComponent<Note>().collideTime);
+            HitQuality(note.transform.position.x);
             projectile.Throw(note.transform, note);
         }
         if (entered && note.GetComponent<Note>().type.Equals("4"))
         {
-            HitQuality(note.GetComponent<Note>().collideTime);
-            GameObject toThrow = Instantiate(inner, register.position, Quaternion.identity);
-            toThrow.GetComponent<SpriteRenderer>().sortingOrder = 8;
-            projectile.Throw(toThrow.transform, toThrow);
+            StartCoroutine(ThrowDrumRollNote());
         }
 
         //Debug.Log("left inner");
@@ -266,20 +261,17 @@ public class ActionProcesser : MonoBehaviour
         if (entered && note.GetComponent<Note>().type.Equals("1"))
         {
             //note.GetComponent<Note>().Decrease();
-            HitQuality(note.GetComponent<Note>().collideTime);
+            HitQuality(note.transform.position.x);
             projectile.Throw(note.transform, note);
         }
         if (entered && note.GetComponent<Note>().type.Equals("3") && Time.time - lastRO <= allowDuration)
         {
-            HitQuality(note.GetComponent<Note>().collideTime);
+            HitQuality(note.transform.position.x);
             projectile.Throw(note.transform, note);
         }
         if (entered && note.GetComponent<Note>().type.Equals("4"))
         {
-            HitQuality(note.GetComponent<Note>().collideTime);
-            GameObject toThrow = Instantiate(outer, register.position, Quaternion.identity);
-            toThrow.GetComponent<SpriteRenderer>().sortingOrder = 8;
-            projectile.Throw(toThrow.transform, toThrow);
+            StartCoroutine(ThrowDrumRollNote());
         }
         //Debug.Log("left outer");
     }

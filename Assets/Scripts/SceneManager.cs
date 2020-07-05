@@ -16,7 +16,7 @@ public class SceneManager : MonoBehaviour
     {
         //instantiate start scene
         insertCoin.inserted += AfterInserted;
-        AfterInserted();
+        //AfterInserted();
 
     }
     void AfterInserted()
@@ -59,7 +59,7 @@ public class SceneManager : MonoBehaviour
             case "MainGame":
                 Debug.Log("main");
                 MainValue.Instance.gameHasEnded = false;
-                Instantiate(scenes[MainValue.Instance.SceneIndex[MainValue.Instance.sceneToLoad]], transform.TransformPoint(new Vector3(0, 10, 0)), Quaternion.identity);
+                Instantiate(scenes[MainValue.Instance.SceneIndex[MainValue.Instance.sceneToLoad]], transform.TransformPoint(new Vector3(0, 15, 0)), Quaternion.identity);
                 break;
             default:
                 break;

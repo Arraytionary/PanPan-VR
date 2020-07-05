@@ -46,7 +46,7 @@ public class Conductor : MonoBehaviour
     int id2;
 
     //
-    float noteDiff = 0.5f;
+    float noteDiff;// = 0.5f;
     //
 
     //distance btween spawner and register 
@@ -55,6 +55,7 @@ public class Conductor : MonoBehaviour
     //an AudioSource attached to this GameObject that will play the music.
     public AudioSource musicSource;
 
+    float t;
     // Start is called before the first frame update
     void Start()
     {
@@ -92,12 +93,14 @@ public class Conductor : MonoBehaviour
         note = MainValue.Instance.mainSong.note;
         startOffset = song.startOffset;
 
+        noteDiff = 0.5f;
+
         distance = Mathf.Abs(register.transform.position.x - spawner.gameObject.transform.position.x);
         Invoke("ShowSummary", song.duration);
-
+        t = Time.time;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         //determine how many seconds since the song started
@@ -112,31 +115,32 @@ public class Conductor : MonoBehaviour
         //    lp2 = songPositionInBeats;
         //    //spawner.SpawnNote();
         //}
+
         if (songPositionInBeats >= -offset)
         {
-            if (songPositionInBeats - lastPos > noteDiff)
+            if (!spawned)
             {
-                if(idx%8 == 0) spawner.SpawnNorm();
-                //lastPos = songPositionInBeats;
-
-                //else
-                //{
-                if (note[idx] != -1)
-                {
-                    spawner.SpawnNote(note[idx], idx);
-                }
-                idx++;
-
-                //}
-
-                db += 1;
-                lastPos = songPositionInBeats;
+                spawner.SpawnNote(note);
+                spawned = true;
             }
-            
+
+            if (songPositionInBeats > lastPos + noteDiff)
+            {
+                //Debug.Log(songPositionInBeats - lastPos);
+                if (idx%8 == 0) spawner.SpawnNorm();
+                idx++;
+                lastPos = songPositionInBeats;
+                
+            }
+
         }
     }
     public float GetVelocity()
     {
+        Debug.Log(distance);
+        Debug.Log(offset);
+        Debug.Log(secPerBeat);
+
         return distance/(offset*secPerBeat);
     }
 

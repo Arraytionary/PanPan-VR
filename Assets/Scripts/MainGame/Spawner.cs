@@ -21,7 +21,22 @@ public class Spawner : MonoBehaviour
         //yield return new WaitForSeconds(2);
         //StartCoroutine(SpawnNorm());
     }
-    public void SpawnNote(int idx, int orderInLayer)
+    public void SpawnNote(int[] note)
+    {
+
+            for(int i = 0; i < note.Length; i++)
+            {
+                if(note[i] != -1)
+                {
+                GameObject n = notes[note[i]];
+                n.GetComponent<Note>().velocity = cd.GetVelocity();
+                //n.GetComponent<Note>().velocity = 2f;
+                n.GetComponent<SpriteRenderer>().sortingOrder = -i;
+                Instantiate(n, transform.position + new Vector3(i*MainValue.Instance.crrSecPerBeat* cd.GetVelocity()/2, 0,0), Quaternion.identity);
+                }
+            }
+    }
+        public void SpawnNoteX(int idx, int orderInLayer)
     {
         //int idx = Random.Range(0, 4);
         //Debug.Log(idx);

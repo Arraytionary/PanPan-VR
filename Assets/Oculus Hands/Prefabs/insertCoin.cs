@@ -42,7 +42,7 @@ public class insertCoin : MonoBehaviour
             other.gameObject.transform.position = holePos.transform.position;
             other.transform.rotation = holePos.transform.rotation;
             StartCoroutine(StartGame());
-            other.gameObject.GetComponent<Rigidbody>().AddForce(0, 0, 4);
+            other.gameObject.GetComponent<Rigidbody>().AddForce(0, 0, 40);
             other.gameObject.GetComponent<Rigidbody>().angularVelocity = new Vector3( Mathf.PI * 2, 0, 0);
             
         }

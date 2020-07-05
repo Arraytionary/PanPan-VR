@@ -1,1 +1,1 @@
-{"Cruel Angel Thesis":{"highScore":374,"cleared":true},"Bubblegum kk!":{"highScore":110,"cleared":true},"Inferno":{"highScore":1351,"cleared":false}}
+{"Cruel Angel Thesis":{"highScore":280,"cleared":true},"Bubblegum kk!":{"highScore":0,"cleared":true},"Inferno":{"highScore":1048,"cleared":false},"Seven Nation Army":{"highScore":160,"cleared":true}}

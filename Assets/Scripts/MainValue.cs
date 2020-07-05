@@ -10,7 +10,7 @@ public class MainValue : Singleton<MainValue>
         { "MainMenu", new Vector3(-24, 0, -10)},
         {"GenreList", new Vector3(-48, 0, -10)},
         { "SongList",  new Vector3(24,0,-10)},
-        {"MainGame",  new Vector3(0, 10, -10)},
+        {"MainGame",  new Vector3(0, 15, -10)},
         {"ScoreSummary",  new Vector3(48,0,-10)},
     };
     public IDictionary<string, float> FloatValue = new Dictionary<string, float>()
@@ -33,7 +33,7 @@ public class MainValue : Singleton<MainValue>
     public IDictionary<string, SaveObject> saveObjects;
 
     public string selectedMenu = "all song";
-    public string crrScene = "StartScene";
+    public string crrScene = "";
     public Stack<string> previousScene = new Stack<string>();
     //check does songlist is called by back()
     public bool fromBack = false;

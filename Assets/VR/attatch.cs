@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class attatch : MonoBehaviour
+public class Attach : MonoBehaviour
 {
     public GameObject o;
     public Stick stick;
+    HandPresence hP;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +23,18 @@ public class attatch : MonoBehaviour
     {
         if (other.tag == "Hand")
         {
-            stick.hP = other.gameObject.GetComponentInChildren<HandPresence>();
+            hP = other.gameObject.GetComponentInChildren<HandPresence>();
         }
     }
+
+    public void AssignToHand()
+    {
+        stick.hP = hP;
+    }
+
+    public void Drop()
+    {
+        stick.hP = null;
+    }
+
 }

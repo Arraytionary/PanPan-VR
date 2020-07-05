@@ -217,6 +217,8 @@ public class SongListManager : MonoBehaviour
         //Set initial last press
         expanded.song = songs[center].song;
         lastPress = Time.time;
+
+        Utility.ResetScore();
     }
 
     void InActivate()

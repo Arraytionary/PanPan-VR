@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1706994487
   m_SortingLayer: 1
-  m_SortingOrder: -55
+  m_SortingOrder: -179
   m_Sprite: {fileID: 21300000, guid: 47c290e9f2c0ff34ea8e40f22f6a1bff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -100,7 +100,7 @@ MonoBehaviour:
   collideTime: 0
   dec: 1
   image: {fileID: 0}
-  velocity: 5.9648
+  velocity: 5.825
   text: 
 --- !u!50 &-2069500286848706962
 Rigidbody2D:

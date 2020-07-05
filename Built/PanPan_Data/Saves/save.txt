@@ -1,1 +1,0 @@
-{"Cruel Angel Thesis":{"highScore":74,"cleared":true},"Bubblegum kk!":{"highScore":82,"cleared":true}}
